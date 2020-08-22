@@ -1,0 +1,15 @@
+{% load i18n %}
+<h3>{% trans 'Training' %}</h3><br>
+<p>
+    {% trans 'Tags' %} : {% for tag in user.student.interests.all %} {{ tag.get_html_badge }} {% endfor %}<br><br>
+    <a href="{% url 'student_interests' %}">(update interests)</a>
+</p>
+
+<ul>
+    <li>
+        <a class="{% if active == 'new' %} active{% endif %}" href="{% url 'student_quiz_list' %}">{% trans 'New' %}</a>
+    </li><br>
+    <li>
+        <a class="{% if active == 'taken' %} active{% endif %}" href="{% url 'taken_quiz_list' %}">{% trans 'Taken quiz' %}</a>
+    </li>
+</ul>

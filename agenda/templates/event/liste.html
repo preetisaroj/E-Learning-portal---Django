@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+   {% block title %}
+    {% trans 'Events' %}
+   {% endblock %}
+   {% block content %}
+   <div class="container"><br><br><br><br><br><br>
+         <ul>
+             {% for event in events %}
+                <li>
+                    <h3>
+                        <a href="" class="titre">{{ event.name }}</a>
+                        <a href="{{ event.get_absolute_url }}">({% trans 'details' %})</a>
+                    </h3>
+                    <div class="event">
+                    <p>{{ event.date }}</p>
+                    <p>{{ event.location }}</p>
+                    {% for guest in event.eventguest_set.all %}
+                    <div class="well">
+                        {{ guest.guest }}: {{ guest.get_status_display }}
+                    </div>
+                    {% endfor %}
+                    {% with delete_url=event.delete_url %}
+                    {% include 'partial/delete_form.html' %}
+                    {% endwith %}
+                    <a href="{% url 'update_event' event.id %}" class="btn btn-default">{% trans 'Update' %}</a>
+                    </div>
+                </li>
+             {% endfor %}
+         </ul>
+
+         <ul class="pagination">
+             {% if events.has_previous %}
+             <li><a href="?page={{ events.previous_page_number }}">{% trans 'Previous' %}</a></li>
+             {% endif %}
+             {% for l in events.paginator.page_range %}
+                {% if forloop.counter < 5 %}
+                    <li {% if l == events.number %}class="active"{% endif %}><a href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                {% endif %}
+             {% endfor %}
+             {% if events.has_next %}
+             <li><a href="?page={{ events.next_page_number }}">{% trans 'Next' %}</a></li>
+             {% endif %}
+        </ul>
+
+         <a href="{% url 'create_event' %}" class="btn btn-primary">{% trans 'Create a new event' %}</a>
+     </div>
+   {% endblock %}
+
+   {% block domready %}
+   $('.event').hide();
+   $('.titre').on('click', function(e) {
+       $(this).parent().parent().children('.event').toggle();
+       e.preventDefault();
+   })
+   {% endblock %}

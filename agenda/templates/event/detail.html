@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+{{ event.name }}
+{% endblock %}
+{% block content %}
+<div class="container"><br><br><br><br><br><br>
+    <div>
+        <h2>{{ event.name }}</h2>
+        <p>{{ event.description }}</p>
+        <p>{{ event.date }}</p>
+        <p>{{ event.location }}</p>
+    </div>
+    <div>
+        {% for guest in event.eventguest_set.all %}
+        <p>{{ guest.guest }}</p>
+        <div>
+            {{ guest.get_status_display }}
+            {% with delete_url=guest.delete_url %}
+            {% include 'partial/delete_form.html' %}
+            {% endwith %}
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        {% include 'partial/guest_form.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block domready %}
+
+    $('#guest_form').on('submit', function(e) {
+        $.ajax({
+            type: 'POST',
+            data: $(this).serialize(),
+            url: "",
+            success: function(data) {
+                if (typeof(data) == "string") {
+                    $('#guest_form').html(data);
+                } else {
+                    $('#guest_form').append(
+                        "<div class='well'>"
+                            + data.guest + " : "
+                            + data.get_status_display + ""
+                            + data.delete_form +
+                        "</div>"
+                    )
+                }
+            }
+        })
+        e.preventDefault();
+    });
+
+    $('.delete').on('submit', function(e){
+        form = $(this);
+        $.ajax({
+            type: "POST",
+            data: $(this).serialize(),
+            url: $(this).attr("action"),
+            success: function(data) {
+                if (data === "OK") {
+                    form.parent().remove()
+                }
+            }
+        })
+        e.preventDefault();
+    })
+
+{% endblock %}

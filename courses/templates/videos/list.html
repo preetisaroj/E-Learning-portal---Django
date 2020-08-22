@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+{% trans 'Videos' %}
+{% endblock %}
+
+{% block content %}
+<div class="container"><br><br><br><br><br><br><br><br>
+    <h2>{% trans 'Search for a video' %}</h2>
+
+    {% if q %}
+        <h3>{% trans 'Results for' %} : {{ q }}</h3>
+    {% endif %}
+
+<form method="get" novalidate>
+    <div class="row">
+      <div class="col-lg-6">
+          {% trans 'Number of results ' %}
+
+          <select name="results" id="results"><br><br><br><br>
+              {% for max_length in max_lengths %}
+              <option value="{{ max_length }}">{{ max_length }}</option>
+              {% endfor %}
+          </select>
+        <div>
+        {% for subject in subjects %}
+            <label class="form-group">
+                <input type="radio" name="q" id="q" value="{{ subject }}" />{{ subject }}
+            </label>
+        {% endfor %}
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">{% trans 'Go!' %}</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+  </form>
+  <br />
+  <br />
+  {% if videos %}
+      <div class="row">
+          <div class="col-md-4 list-videos-content list-group">
+          {% for item in videos.items %}
+            <div class="media list-group-item">
+                {% if item.id.kind == 'youtube#video' %}
+              <span class="badge">{% trans 'video' %}</span>
+                  {% elif item.id.kind == 'youtube#channel' %}
+              <span class="badge">{% trans 'channel' %}</span>
+                  {% elif item.id.kind == 'youtube#playlist' %}
+              <span class="badge">{% trans 'playlist' %}</span>
+                  {% endif %}
+
+                <div class="media-left pull-left">
+                    {% if item.id.kind == 'youtube#video' %}
+                  <a href="#" class="video" data-video-src="https://www.youtube.com/embed/{{ item.id.videoId }}">
+                      {% elif item.id.kind == 'youtube#channel' %}
+                  <a href="https://www.youtube.com/channel/{{ item.id.channelId }}" target="_blank">
+                      {% elif item.id.kind == 'youtube#playlist' %}
+                  <a href="https://www.youtube.com/playlist?list={{ item.id.playlistId }}" target="_blank">
+                      {% endif %}
+                    <img class="media-object" src="{{ item.snippet.thumbnails.default.url }}" width="{{ item.snippet.thumbnails.default.width }}" height="{{ item.snippet.thumbnails.default.height }}" alt="{{ item.snippet.title }}">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading">{{ item.snippet.title }}</h4>
+                  {{ item.snippet.description }}
+                </div>
+            </div>
+          {% endfor %}
+          </div>
+          <div class="col-md-8 offset-sm-2">
+              <div class="embed-responsive embed-responsive-16by9">
+                  <!-- https://www.youtube.com/watch?v={{ item.id.videoId }} -->
+                   <iframe id="video-iframe" class="embed-responsive-item hidden" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+               </div>
+          </div>
+      </div>
+  {% endif %}
+</div>
+ {% endblock %}
+
+{% block domready %}
+$('.video').on('click', function(evt) {
+    evt.preventDefault();
+
+    var $this = $(this);
+    var videoSrc = $this.data('video-src');
+
+    if ($('#video-iframe').length) {
+        $('#video-iframe').removeClass('hidden');
+        $('#video-iframe').attr('src', videoSrc);
+
+        return false
+    }
+
+    return true;
+});
+{% endblock %}

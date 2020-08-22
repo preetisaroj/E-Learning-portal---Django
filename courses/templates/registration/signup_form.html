@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+   {% block title %}
+       {% trans 'Sign up as' %} {{ user_type }}
+   {% endblock %}
+   {% block content %}
+   <div class="container"><br><br><br><br><br><br>
+       <h1>{% trans 'Sign up ' %}</h1>
+       <div class="signup">
+           <p>{% trans "Enter your details to create an account as" %} {{ user_type }}</p>
+           <div class="signup-form">
+               <form id="user_form" accept-charset="utf-8" action="" method="post" novalidate>
+                   {{ form.as_p }}
+                   {% csrf_token %}
+
+                    <input type="submit" class="btn btn-primary" value="{% trans 'Create an account' %}">
+               </form>
+           </div>
+            <p>{% trans "Already an account ?" %} <a href="{% url 'login' %}">{% trans 'Log in' %}</a>.</p>
+       </div>
+   </div>
+   {% endblock %}

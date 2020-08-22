@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<!-- services -->
+<div class="services" id="services">
+    <h3>Services</h3>
+    <div class="col-md-2 services-gd text-center" data-wow-delay=".5s">
+        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9a">
+            <a href="{% url 'course_list' %}"class="hi-icon"><img src="{% static 'images/book.png' %}" alt=" " />{{ course.name }}</a>
+        </div>
+        <h4>Tutorials Library </h4>
+        <p style="text-align:justify;">A tutorial is a method of transferring knowledge and may be used as a part of a learning process.
+        More interactive and specific than a book or a lecture, a tutorial seeks to teach by example and supply the information to complete a certain task.</p>
+    </div>
+    <div class="col-md-2 services-gd text-center" data-wow-delay=".5s">
+        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9a">
+            <a href="#" class="hi-icon"> <img src="{% static 'images/book2.png' %}" alt=" " /></a>
+        </div>
+        <h4>Assignments</h4>
+        <p style="text-align:justify;">Homework, or a homework assignment, is a set of tasks assigned to students by their teachers to be completed outside the class.
+        Common homework assignments may include required reading, a writing or typing project, mathematical exercises to be completed, information to be reviewed before a test, or other skills to be practiced.
+        </p>
+    </div>
+    <div class="col-md-2 services-gd text-center" data-wow-delay=".5s">
+        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9a">
+            <a href="{% url 'student_quiz_list' %}"class="hi-icon" > <img src="{% static 'images/edu.png' %}" alt=" " /> </a>
+        </div>
+        <h4>{% trans 'My Quiz' %}</h4>
+        <p style="text-align:justify;">A quiz is a form of game or mind sport, in which the players (as individuals or in teams) attempt to answer questions correctly. It is a game to test your knowledge about a certain subject. In some countries,
+        a quiz is also a brief assessment used in education and similar fields to measure growth in knowledge, abilities, and/or skills.</p>
+    </div>
+    <div class="col-md-2 services-gd text-center" data-wow-delay=".5s">
+        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9a">
+            <a href="{% url 'liste_events' %}" class="hi-icon"><img src="{% static 'images/hourglass.png' %}" alt=" " /></a>
+        </div>
+        <h4>Ajenda</h4>
+        <p style="text-align:justify;">The process of planning and coordinating the event is usually referred to as event planning and which can include budgeting, scheduling, site selection, acquiring necessary permits, coordinating transportation and parking, arranging for speakers or entertainers, arranging decor, event security, catering, coordinating with third party vendors, and emergency plans.
+             Each event is different in its nature so process of planning & execution of each event differs on basis of type of event.</p>
+    </div>
+    <div class="col-md-2 services-gd text-center" data-wow-delay=".5s">
+        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9a">
+            <a href="{% url 'videos_list' %}" class="hi-icon"> <img src="{% static 'images/uni.png' %}" alt=" " />   </a>
+        </div>
+        <h4>{% trans 'Videos' %}</h4>
+        <p style="text-align:justify;">An online lecture is an educational lecture designed to be posted online. Lectures are recorded to video, audio or both, then uploaded and made viewable on a designated site. Students may go to a certain designated site to view the lecture online at a time which is convenient for them.
+
+            Traditionally, vocal education is possible only when the teacher and the pupil are together in the same room, where the teacher passes on the information in the same vicinity of the student. Online lectures are now possible with the advent of video communications. The development of the online lecture makes it possible so that the teacher and student no longer have to be in the same vicinity to teach and learn, respectively</p>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<!-- //services -->
+{% endblock %}
